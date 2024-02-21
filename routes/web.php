@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('posts.replies', PostReplyController::class)->shallow();
 
     Route::post('/posts/reply/{postId}', [PostReplyController::class, 'store'])->name('posts.reply.store');
+    Route::post('/profile/editImagemUser', [ProfileController::class, 'editImagemUser'])->name('profile.editImagemUser');
 
 });
 

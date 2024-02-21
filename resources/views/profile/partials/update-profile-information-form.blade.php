@@ -13,6 +13,21 @@
         @csrf
     </form>
 
+    <form method="POST" action="{{ route('profile.editImagemUser') }}" enctype="multipart/form-data">
+        @csrf
+        FOTO DE PERFIL
+        <label for="upload-photo" class="upload-photo-user">
+            <img src="{{ $user->image_link_user }}" alt="Imagem de Perfil">
+        </label>
+        <input id="image_link_user" type="file" class="form-control-file @error('image_link_user') is-invalid @enderror" name="image_link_user" accept="image/*">
+
+        <button type="submit" class="btn btn-primary">
+            {{ __('Salvar') }}
+        </button>
+    </form>
+
+
+
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
@@ -62,8 +77,10 @@
         <div>
             <x-input-label for="unidade" :value="__('Unidade')" />
             <select id="unidade" name="unidade" class="mt-1 block w-full" required autofocus autocomplete="unidade">
-                <option value="São Bernado" {{ old('unidade') == '>São Bernado' ? 'selected' : '' }}>São Bernado</option>
-                <option value="Santo Andre" {{ old('unidade') == 'Santo Andre' ? 'selected' : '' }}>Santo Andre</option>
+                <option value="São Bernado" {{ old('unidade') == '>São Bernado' ? 'selected' : '' }}>São Bernado
+                </option>
+                <option value="Santo Andre" {{ old('unidade') == 'Santo Andre' ? 'selected' : '' }}>Santo Andre
+                </option>
                 <!-- Adicione mais opções conforme necessário -->
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('unidade')" />
@@ -71,9 +88,8 @@
 
         <div>
             <x-input-label for="bio" :value="__('Bio')" />
-            <textarea id="bio" name="bio" type="text" class="mt-1 block w-full"
-                required autofocus autocomplete="bio">
-                {{$user->bio}}
+            <textarea id="bio" name="bio" type="text" class="mt-1 block w-full" required autofocus autocomplete="bio">
+                {{ $user->bio }}
             </textarea>
             <x-input-error class="mt-2" :messages="$errors->get('bio')" />
         </div>

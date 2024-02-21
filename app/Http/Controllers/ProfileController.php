@@ -11,6 +11,33 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+
+    public function editImagemUser(Request $request)
+    {
+        $request->validate([
+            'image_link_user' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validação para imagem
+        ]);
+
+        // Verificar se o usuário está autenticado
+        if (Auth::check()) {
+            // Obtenha o usuário autenticado atualmente
+            $user = Auth::user();
+
+            // Verificar se há uma nova imagem e atualizar, se existir
+            if ($request->hasFile('image_link_user')) {
+                $imagePath = $request->file('image_link_user')->store('images'); // Salva na pasta 'public/images'
+                $user->image_link_user = '/storage/' . $imagePath; // Salva o caminho relativo da imagem no banco de dados
+                $user->save(); // Salva as alterações do usuário apenas se houver uma nova imagem
+            }
+
+            return view('profile.edit', [
+                'user' => $user,
+            ]);
+        } else {
+            // O usuário não está autenticado, redirecione para a página de login ou faça qualquer outra ação necessária
+            return redirect()->route('login');
+        }
+    }
     /**
      * Display the user's profile form.
      */
@@ -39,14 +66,7 @@ class ProfileController extends Controller
 
     public function updateProfileInformation(Request $request)
 {
-    $request->user()->forceFill([
-        // outros campos de perfil,
-        'profile_photo_path' => $request->user()->id . '_' . $request->file('profile_photo')->getClientOriginalName(),
-    ])->save();
 
-    $request->file('profile_photo')->storeAs('public/profile-photos', $request->user()->id . '_' . $request->file('profile_photo')->getClientOriginalName());
-
-    return back()->with('status', 'Perfil atualizado com sucesso.');
 }
 
     /**

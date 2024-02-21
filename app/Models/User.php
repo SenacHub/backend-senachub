@@ -24,7 +24,7 @@ class User extends Authenticatable
         'usuario',
         'unidade',
         'bio',
-        'profile_photo_path',
+        'image_link_user',
 
 
 

@@ -58,23 +58,6 @@
                   <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
-                        <form action="{{ route('posts.store') }}" method="POST">
-                          @csrf
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="createPostModalLabel">Criar Nova Postagem</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="mb-3">
-                              <label for="postContent" class="form-label">Conteúdo da Postagem</label>
-                              <textarea class="form-control" id="postContent" name="content" rows="4"></textarea>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="submit" class="btn btn-primary">Criar Postagem</button>
-                          </div>
-                        </form>
                       </div>
                     </div>
                   </div>

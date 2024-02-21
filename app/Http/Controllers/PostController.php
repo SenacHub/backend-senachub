@@ -11,7 +11,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('user')->get();
-        return view('auth.posts', compact('posts'));
+        return view('auth\telaPublicacao', compact('posts'));
     }
 
     // Exibir o formulário de criação de postagem
@@ -25,11 +25,19 @@ class PostController extends Controller
     {
         $request->validate([
             'content' => 'required|string',
+            'image_link' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validação para imagem
         ]);
 
         $post = new Post();
         $post->content = $request->content;
         $post->user_id = Auth::id();
+
+        // Salvar a imagem na pasta pública, se existir
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public'); // Salva na pasta 'public/images'
+            $post->image_link = '/storage/' . $imagePath; // Salva o caminho relativo da imagem no banco de dados
+        }
+
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'Postagem criada com sucesso!');
